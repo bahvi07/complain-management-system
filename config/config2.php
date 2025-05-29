@@ -1,13 +1,13 @@
 <?php
-// Check if we're on Heroku
-if (isset($_ENV['DATABASE_URL'])) {
-    // Heroku database configuration
-    $url = parse_url($_ENV['DATABASE_URL']);
+// Railway database configuration
+if (isset($_ENV['MYSQL_URL'])) {
+    // Railway MySQL configuration
+    $url = parse_url($_ENV['MYSQL_URL']);
     $host = $url['host'];
     $username = $url['user'];
     $password = $url['pass'];
     $database = ltrim($url['path'], '/');
-    $port = $url['port'];
+    $port = $url['port'] ?? 3306;
 } else {
     // Local XAMPP configuration
     $host = 'localhost';
