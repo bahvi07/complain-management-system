@@ -9,9 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 // Send Complain through AJAX
+// Send Complain through AJAX
 const submitBtn = document.getElementById("submitComplain");
-  if (submitBtn) {
-    submitBtn.addEventListener("click", async (e) => {
+if (submitBtn) {
+  submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const form = document.getElementById("complaintForm");
@@ -40,15 +41,67 @@ const submitBtn = document.getElementById("submitComplain");
       }
 
       if (result.success) {
+        // Function to copy text to clipboard
+        const copyToClipboard = (text) => {
+          navigator.clipboard.writeText(text).then(() => {
+            // Show temporary feedback
+            Swal.fire({
+              icon: "success",
+              title: "Copied!",
+              text: "Reference ID copied to clipboard",
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }).catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            
+            Swal.fire({
+              icon: "success",
+              title: "Copied!",
+              text: "Reference ID copied to clipboard",
+              timer: 1500,
+              showConfirmButton: false
+            });
+          });
+        };
+
         Swal.fire({
           icon: "success",
           title: "Success!",
           html:
             result.message +
             (result.refId
-              ? `<br><strong>Reference ID:</strong> ${result.refId}`
+              ? `<br><strong>Reference ID:</strong> 
+                 <span id="refIdText" style="color: #007bff; cursor: pointer; text-decoration: underline; user-select: all;" 
+                       title="Click to copy">${result.refId}</span>
+                 <button id="copyRefBtn" style="margin-left: 8px; padding: 2px 6px; border: 1px solid #007bff; background: #007bff; color: white; border-radius: 3px; cursor: pointer; font-size: 12px;" 
+                         title="Copy Reference ID">📋</button>`
               : ""),
           confirmButtonColor: "#3085d6",
+          didOpen: () => {
+            // Add click event to reference ID text
+            const refIdText = document.getElementById("refIdText");
+            if (refIdText) {
+              refIdText.addEventListener("click", () => {
+                copyToClipboard(result.refId);
+              });
+            }
+
+            // Add click event to copy button
+            const copyBtn = document.getElementById("copyRefBtn");
+            if (copyBtn) {
+              copyBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                copyToClipboard(result.refId);
+              });
+            }
+          }
         }).then(() => {
           form.reset();
           const modal = bootstrap.Modal.getInstance(
@@ -81,12 +134,5 @@ const submitBtn = document.getElementById("submitComplain");
       submitBtn.disabled = false;
       submitBtn.innerHTML = "Submit";
     }
- });
-  }
-});
-
-
-  // My complaints
-
-
- 
+  });
+}});

@@ -65,12 +65,13 @@ include '../auth/auth-check.php';
           </div>
         </div>
 
-        <div class="col-12">
-          <div class="dashboard-card" id="delete" data-bs-toggle="modal" data-bs-target="#deleteAcModal">
-            <i class="fas fa-trash-alt"></i>
-            <span>Delete Account</span>
-          </div>
-        </div>
+       <!-- Change this ID from "delete" to "openDeleteModal" -->
+<div class="col-12">
+  <div class="dashboard-card" id="openDeleteModal" data-bs-toggle="modal" data-bs-target="#deleteAcModal">
+    <i class="fas fa-trash-alt"></i>
+    <span>Delete Account</span>
+  </div>
+</div>
 
       </div>
   </div>
@@ -167,14 +168,14 @@ include '../auth/auth-check.php';
     </div>
   </div>
 
-  <!-- Delete Account Modal -->
+ <!-- Delete Account Modal -->
 <div class="modal fade" id="deleteAcModal" tabindex="-1" aria-labelledby="deleteAcModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content rounded-4">
       
       <!-- Modal Header -->
-      <div class="modal-header rounded-top-4" style="background:#F15922;">
-        <h5 class="modal-title text-white" id="deleteAcModalLabel">
+      <div class="modal-header rounded-top-4" style="">
+        <h5 class="modal-title text-dark" id="deleteAcModalLabel">
           <i class="fas fa-user-times me-2"></i>Delete Account
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -183,18 +184,25 @@ include '../auth/auth-check.php';
       <!-- Modal Form -->
       <form action="" method="POST" id="deleteForm">
         <div class="modal-body">
-          <p class="text-danger fw-semibold">Are you sure you want to permanently delete your account?</p>
+          <div class="text-center">
+            <i class="fas fa-exclamation-triangle text-danger" style="font-size: 3rem;"></i>
+            <h4 class="text-danger mt-3">⚠️ WARNING</h4>
+            <p class="text-danger fw-semibold">This action cannot be undone!</p>
+            <p>Are you sure you want to permanently delete your account and all your complaints?</p>
+          </div>
           <input type="hidden" name="phone" value="<?= $_SESSION['user_phone'] ?? '' ?>">
         </div>
 
-        <div class="modal-footer d-flex flex-column gap-2">
-          <button type="button" id="delete" class="btn btn-danger w-100 rounded-pill">
-            <i class="fas fa-trash-alt me-2"></i>Yes, Delete My Account
-          </button>
-          <button type="button" class="btn btn-secondary w-100 rounded-pill" data-bs-dismiss="modal">
-            Cancel
-          </button>
-        </div>
+        <!-- Modal Footer with Buttons -->
+        <!-- Inside the modal footer -->
+<div class="modal-footer d-flex flex-column gap-2">
+  <button type="button" id="delete" class="btn btn-danger w-100 rounded-pill">
+    <i class="fas fa-trash-alt me-2"></i>Yes, Delete My Account
+  </button>
+  <button type="button" class="btn btn-secondary w-100 rounded-pill" data-bs-dismiss="modal">
+    Cancel
+  </button>
+</div>
       </form>
 
     </div>
@@ -213,8 +221,7 @@ include '../auth/auth-check.php';
 window.location.href="../auth/logout.php";
     });
     
-    // Delete Account Script
-
+// Delete Account Script
 const delBtn = document.getElementById('delete');
 
 delBtn.addEventListener('click', async (e) => {
@@ -228,44 +235,34 @@ delBtn.addEventListener('click', async (e) => {
   delBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Deleting...`;
 
   try {
-   const response = await fetch('./delete-account.php', {
-  method: 'POST',
-  body: formData,
-});
-
-const text = await response.text();
-
-try {
-  const result = JSON.parse(text);
-
-  if (result.success) {
-    Swal.fire({
-      icon: 'success',
-      title: 'Deleted',
-      text: result.message,
-    }).then(() => {
-      window.location.href = '../index.php';
+    const response = await fetch('./delete-account.php', {
+      method: 'POST',
+      body: formData,
     });
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: result.message || 'Unable to delete your account.',
-    });
-  }
-} catch (err) {
-  console.error("Invalid JSON:", text);
-  Swal.fire({
-    icon: 'error',
-    title: 'Server Error',
-    text: 'Unexpected server response. Check console for details.',
-  });
-}
 
+    const text = await response.text();
+    const result = JSON.parse(text);
+
+    if (result.success) {
+      // Close modal and redirect
+      const modal = bootstrap.Modal.getInstance(document.getElementById('deleteAcModal'));
+      modal.hide();
+      
+      // Redirect after modal closes
+      setTimeout(() => {
+        window.location.href = '../index.php';
+      }, 300);
+    } else {
+      // Only show error if deletion fails
+      alert('Error: ' + (result.message || 'Unable to delete account'));
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert('Network error. Please try again.');
   } finally {
     delBtn.disabled = false;
-    delBtn.innerHTML = 'Delete My Account';
+    delBtn.innerHTML = '<i class="fas fa-trash-alt me-2"></i>Yes, Delete My Account';
   }
 });
-
   </script>

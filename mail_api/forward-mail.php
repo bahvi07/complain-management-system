@@ -1,10 +1,14 @@
 <?php
+// Update these paths:
+require_once '../phpmailer/src/Exception.php';
+require_once '../phpmailer/src/PHPMailer.php';
+require_once '../phpmailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'C:\xampp\vendor\autoload.php';
 require '../config/config.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['dept_email'] ?? '';
     $refid = $_POST['refid'] ?? '';
@@ -13,9 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = $_POST['location'] ?? '';
     $image = $_POST['image'] ?? '';
 
-
     if (empty($email) || empty($refid)) {
-        echo json_encode(['success' => false, 'message' => 'Missing email or reference ID.']);
+        echo "<!DOCTYPE html>
+        <html>
+        <head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        </head>
+        <body>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Information!',
+                text: 'Email or Reference ID is missing!',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '../admin/complaints.php';
+            });
+        </script>
+        </body>
+        </html>";
         exit;
     }
 
@@ -34,44 +54,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->addAddress($email);
 
         $mail->isHTML(true);
-        if (!empty($image) && file_exists($image)) {
-            $mail->addAttachment($image); // attaches the file
-        }
-
         $mail->Subject = "Complaint Forwarded (Ref ID: $refid)";
 
         $mail->Body = "
-    <h3>Complaint Forwarded</h3>
-    <p><strong>Reference ID:</strong> $refid</p>
-    <p><strong>Name:</strong> $name</p>
-    <p><strong>Phone:</strong> $phone</p>
-    <p><strong>Location:</strong> $location</p>
-    <p><strong>Image:</strong><br>" .
-            (!empty($image) ? "<img src='$image' alt='Complaint Image' style='max-width:100%;height:auto;'/>" : "No image provided.") . "</p>
-    <p>This complaint has been forwarded to your department for review and action.</p>
-";
-
+        <h3>Complaint Forwarded</h3>
+        <p><strong>Reference ID:</strong> $refid</p>
+        <p><strong>Name:</strong> $name</p>
+        <p><strong>Phone:</strong> $phone</p>
+        <p><strong>Location:</strong> $location</p>
+        <p>This complaint has been forwarded to your department for review and action.</p>
+        ";
 
         $mail->send();
-        // echo json_encode(['success' => true, 'message' => 'Email forwarded successfully.']);.
-          updateStatus($refid,$conn);  
-       echo " <script>
-        alert('Complain Forwarded successfully');
-        window.location.href='../admin/complaints.php';
-        </script>";
-        } catch (Exception $e) {
+        
+        // Update status
+        updateStatus($refid, $conn);
+        
+        // Success with SweetAlert
+        echo "<!DOCTYPE html>
+        <html>
+        <head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        </head>
+        <body>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Complaint forwarded successfully!',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            }).then(() => {
+                window.location.href = '../admin/complaints.php';
+            });
+        </script>
+        </body>
+        </html>";
+        
+    } catch (Exception $e) {
         error_log("Mailer Error: " . $mail->ErrorInfo);
-        echo json_encode(['success' => false, 'message' => 'Email failed to send.']);
+        
+        // Error with SweetAlert
+        echo "<!DOCTYPE html>
+        <html>
+        <head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        </head>
+        <body>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Email Failed!',
+                text: 'Failed to send email. Please try again.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '../admin/complaints.php';
+            });
+        </script>
+        </body>
+        </html>";
     }
 }
 
 function updateStatus($ref, $conn) {
     $stmt = $conn->prepare("UPDATE complaints SET status='forward' WHERE refid=?");
     $stmt->bind_param('s', $ref);
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        // Log error if needed
-        return false;
-    }
+    return $stmt->execute();
 }
+?>
