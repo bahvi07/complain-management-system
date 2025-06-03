@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../config/config.php';
+include '../auth/admin-auth-check.php';
 
 // Get posted data
 $id = $_POST['id'] ?? '';

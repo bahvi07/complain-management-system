@@ -1,5 +1,6 @@
 <?php
 require '../config/config.php';
+include '../auth/admin-auth-check.php';
 
 $area = $_POST['area'] ?? '';
 $category = $_POST['category'] ?? '';
