@@ -20,6 +20,7 @@
 <!--Custom Js-->
 <script src="../assets/js/otp.js"></script>
   <script src="../assets/js/user-dashboard.js"></script>
+  <script src="../assets/js/feedback.js"></script>
   <footer class="text-center py-3 mt-3" style="background-color: #fff3ef; font-family: 'Poppins', sans-serif; font-size: 0.9rem; color: #555;">
   <div class="container">
     <p class="mb-0">&copy; <?php echo date("Y"); ?> Vidhayak Sewa Kendra. All rights reserved.</p>

@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const otpModal = new bootstrap.Modal(document.getElementById("otpModal"))
             setTimeout(() => {
               otpModal.show()
+              // Show OTP in toastr for development/testing only, after modal opens
+              if (data.otp) {
+                setTimeout(() => {
+                  toastr.info(`Your OTP is: <b>${data.otp}</b>`, "Your OTP", { timeOut: 7000, escapeHtml: false })
+                }, 800) // 500ms delay after modal opens
+              }
             }, 800)
           } else {
             throw new Error(data.message || "Unknown error occurred")
@@ -141,7 +147,7 @@ if (verifyOtpBtn) {
       })
 
       const result = await response.text()
-
+console.log(result);
       try {
         const data = JSON.parse(result)
 

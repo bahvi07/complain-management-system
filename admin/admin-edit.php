@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../includes/admin-header.php';
 include '../config/config.php';
 include '../includes/admin-nav.php';

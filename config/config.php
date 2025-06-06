@@ -1,9 +1,9 @@
 <?php
 // InfinityFree Database Configuration
-$host = 'sql107.infinityfree.com';
-$username = 'if0_39107611';
-$password = 'kr8IQWPRrD'; // Replace with your real password
-$database = 'if0_39107611_complaint_db';
+$host = 'localhost';
+$username = 'root';
+$password = ''; // Replace with your real password
+$database = 'complaint_system';
 $port = 3306;
 
 // Create connection

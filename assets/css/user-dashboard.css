@@ -6,13 +6,26 @@ body {
   background: linear-gradient(#fef1ec);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+/* For sticky footer (not always fixed) */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
 /* Top Header */
 .top-header {
   position: fixed;
   top: 0;
   left: 0;
   height: 60px;
-
   width: 100%;
   background: linear-gradient(#f15922);
   color: white;
@@ -81,8 +94,7 @@ body {
 .content {
   margin-left: 250px;
   margin-top: 60px;
-  padding: 1rem 1rem 1rem 2rem;
-  height:500px; /* Optional: only if you want full height */
+  padding: 1rem 1rem 4rem 2rem; /* Add bottom padding for footer space */
   box-sizing: border-box;
 }
 
@@ -115,20 +127,38 @@ body {
 }
 
 /* Modal css */
-/* ===== Complaint Modal Custom Styling ===== */
+/* ===== Complaint and Edit  Modal Custom Styling ===== */
 #complaintModal .modal-content {
   border-radius: 20px;
   border: none;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   font-family: "Poppins", sans-serif;
 }
-
+#edit-profile .modal-content {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+}
 #complaintModal .modal-header {
   border-bottom: none;
   padding-bottom: 0.5rem;
 }
 
+#edit-profile .modal-header {
+  border-bottom: none;
+  padding-bottom: 0.5rem;
+}
+
 #complaintModal .modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff4500;
+  width: 100%;
+  text-align: center;
+}
+
+#edit-profile .modal-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: #ff4500;
@@ -168,6 +198,13 @@ body {
   outline: none;
   box-shadow: none;
 }
+#edit-profile input:focus,
+#edit-profile select:focus,
+#edit-profile textarea:focus {
+  border-bottom: 2px solid #ff4500;
+  outline: none;
+  box-shadow: none;
+}
 
 #complaintModal textarea {
   resize: vertical;
@@ -188,13 +225,115 @@ body {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+#edit-profile .btn-primary {
+  background: linear-gradient(to right, #ff7e5f, #fd3a69);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
 
 #complaintModal .btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-2px);
 }
-
+#edit-profile .btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
 #complaintModal .btn-secondary {
+  border-radius: 50px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 500;
+}
+
+#edit-profile .btn-secondary {
+  border-radius: 50px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 500;
+}
+
+/* ===== Feedback Modal Custom Styling ===== */
+#feedback .modal-dialog {
+  margin: 2rem auto; /* Center modal, adjust as needed */
+  max-width: 450px;
+}
+
+#feedback .modal-content {
+  padding: 0 !important; /* Remove any default padding */
+  box-shadow: 0 8px 32px rgba(241, 89, 34, 0.15);
+}
+
+#feedback .modal-header {
+  border-bottom: none;
+  background: linear-gradient(90deg, #f15922 60%, #fd7e14 100%);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding-bottom: 0.5rem;
+}
+
+#feedback .modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+#feedback .modal-body {
+  padding: 2rem 1.5rem 1.5rem 1.5rem !important;
+  background: #fff;
+  border-radius: 0 0 20px 20px;
+}
+
+#feedback label.form-label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #f15922;
+  margin-bottom: 0.3rem;
+}
+
+#feedback textarea.form-control {
+  border: 1.5px solid #fd7e14;
+  border-radius: 10px;
+  background-color: #fff7f2;
+  font-size: 1rem;
+  min-height: 120px;
+  resize: vertical;
+  transition: border-color 0.3s;
+  box-shadow: none;
+}
+
+#feedback textarea.form-control:focus {
+  border-color: #f15922;
+  outline: none;
+  background: #fff;
+}
+
+#feedback .modal-footer {
+  border-top: none;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+#feedback .btn-primary {
+  background: linear-gradient(to right, #ff7e5f, #fd3a69);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+#feedback .btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+#feedback .btn-secondary {
   border-radius: 50px;
   padding: 0.6rem 1.5rem;
   font-weight: 500;
@@ -218,7 +357,7 @@ body {
 
   .content {
     margin-left: 0;
-    padding: 1rem;
+    padding: 1rem 1rem 4rem 1rem; /* Add bottom padding for footer */
     margin-top: 60px;
   }
 
@@ -248,4 +387,11 @@ body {
     margin-left:0;
      padding-left: 0;
 }
+#edit-profile .modal-body{
+  padding: 1.25rem;
+}
+#edit-profile .modal-title{
+  font-size:1.25rem ;
+}
+
 }

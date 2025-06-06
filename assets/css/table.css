@@ -1,4 +1,4 @@
- /* Modern Complaints Table Theme */
+/* Modern Complaints Table Theme */
 #complaintTable {
   background: #fff;
   border-radius: 18px;
@@ -116,7 +116,64 @@ background-color: white;
   background: #fff6f0;
 }
 
-/* Responsive adjustments */
+/* Feedback Table Custom Styles */
+#feedbackTable {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(241, 89, 34, 0.08);
+  margin-bottom: 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.88rem;
+  width: 100%;
+  table-layout: auto;
+}
+
+#feedbackTable thead {
+  background: linear-gradient(90deg, #ff7e5f 0%, #fd3a69 100%);
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+}
+
+#feedbackTable th, #feedbackTable td {
+  vertical-align: middle;
+  border: none;
+  padding: 0.85rem 1rem;
+  font-size: 0.8rem;
+  text-align: left;
+  white-space: normal;
+}
+
+#feedbackTable tbody tr {
+  transition: background 0.18s;
+}
+
+#feedbackTable tbody tr:hover {
+  background: #fff6f0;
+}
+
+#feedbackTable td.phone-col {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: 'Segoe UI Mono', monospace;
+  letter-spacing: 1px;
+}
+
+#feedbackTable td.feedback-col {
+  max-width: 300px;
+  word-break: break-word;
+}
+
+#feedbackTable th.date-col,
+#feedbackTable td.date-col {
+  max-width: 110px;
+  min-width: 80px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   #complaintTable th, #complaintTable td {
     font-size: 0.92rem;
@@ -126,4 +183,15 @@ background-color: white;
     font-size: 0.92rem;
     padding: 0.5rem 0.5rem;
   }
+  #feedbackTable {
+    min-width: 0;
+    font-size: 0.85rem;
+  }
+  #feedbackTable th, #feedbackTable td {
+    padding: 0.4rem 0.4rem;
+  }
+}
+
+body {
+  overflow-x: hidden;
 }

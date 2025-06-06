@@ -1,4 +1,3 @@
-
 /* Prevent unwanted scrollbars */
 html, body {
   height: 100%;
@@ -210,4 +209,13 @@ label.form-label {
   .login-card {
     margin: 20px 0;
   }
+}
+
+/* Add this to user-dashb.css or user-login.css */
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
 }

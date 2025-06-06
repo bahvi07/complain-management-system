@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 // Send Complain through AJAX
-// Send Complain through AJAX
 const submitBtn = document.getElementById("submitComplain");
 if (submitBtn) {
   submitBtn.addEventListener("click", async (e) => {
@@ -136,3 +135,53 @@ if (submitBtn) {
     }
   });
 }});
+
+// Update Phone Script 
+const updateBtn = document.getElementById('updatePhone');
+
+if (updateBtn) {
+  updateBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    let form = document.getElementById('editPhoneForm');
+    let formData = new FormData(form);
+
+    updateBtn.disabled = true;
+    updateBtn.innerText = 'Updating...';
+
+    try {
+      const response = await fetch('edit-phone.php', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json(); // ✅ FIX: parse as JSON, not stringify
+console.log(result.message);
+      if (result.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          html: `${result.message}`,
+        }).then(() => {
+          form.reset();
+          bootstrap.Modal.getInstance(document.getElementById("edit-profile")).hide();
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          html: result.message,
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Request Failed",
+        html: err.message,
+      });
+    } finally {
+      updateBtn.disabled = false;
+      updateBtn.innerText = "Update";
+    }
+  });
+}

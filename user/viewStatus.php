@@ -13,7 +13,7 @@ require '../config/config.php';
             <span style="font-weight:600; font-size:1.2rem; margin-left:8px;">Vidhayak Seva Kendra</span>
         </div>
     </div>
-    <main style="min-height: 90vh; background:whitesmoke; padding-top: 40px;">
+    <main style="min-height: 100vh; background:whitesmoke; padding-top: 40px;" class="footer-space">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10 col-12">
@@ -21,7 +21,10 @@ require '../config/config.php';
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $refId = isset($_POST['ref']) ? trim($_POST['ref']) : '';
                         if (empty($refId) || strlen($refId) !== 6) {
-                            echo "<div class='alert alert-danger text-center rounded-3'><i class='fas fa-times-circle me-2'></i>Invalid Reference ID. Please enter a 6-digit ID.</div>";
+                            echo "<div class='alert alert-danger text-center rounded-3 mt-5'><i class='fas fa-times-circle me-2'></i>Invalid Reference ID. Please enter a 6-digit ID.</div>
+                              <div class='card-body text-center'>
+    <button class='btn btn-outline-danger rounded-pill px-4' id='return' style='font-weight:600;'><i class='fas fa-arrow-left'></i> Return to Dashboard</button>
+  </div>";
                         } else {
                             $phone=$_SESSION['user_phone'];
                             $stmt = $conn->prepare("SELECT * FROM complaints WHERE refid=? AND phone=?");

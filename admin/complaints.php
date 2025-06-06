@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../includes/admin-header.php';
 include '../config/config.php';
 include '../includes/admin-nav.php';
@@ -17,7 +16,7 @@ include '../auth/admin-auth-check.php';
             Admin, <?= $_SESSION['admin_name'] ?? 'Admin' ?>
         </div>
     </div>
-    <div class="complaint-center row p-2">
+    <div class="complaint-center row ">
         <!-- Nav Tabs -->
         <ul class="nav nav-tabs mb-4" id="complaintTabs">
             <li class="nav-item">

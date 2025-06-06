@@ -4,11 +4,19 @@ body {
   background: #f8f9fa;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
 body,
 .top-header,
 .dashboard-content,
 .brand {
   font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 .top-head {
@@ -44,13 +52,14 @@ body,
 }
 
 .dashboard-content {
-  margin-top: 80px;
+  margin-top: 100px;
   margin-right: 0;
   margin-left: 245px;
+  padding-bottom: 85px; /* Adjust this value to be a bit more than your footer's height */
 }
 
 .status-card {
-            width: 180px;
+            width: 160px;
             padding: 1.5rem;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -60,6 +69,8 @@ body,
             animation: fadeInUp 0.5s ease-in-out;
             user-select:none;
             cursor: pointer;
+            margin-right: 24px;
+            margin-bottom: 24px;
         }
 
         .status-card:hover {
@@ -86,10 +97,11 @@ body,
         }
 
 .complaint-center {
-            margin-top: 80px;
-            margin-right: 0;
-            margin-left: 245px;
-        }
+  margin-top: 100px;
+  margin-right: 0;
+  margin-left: 245px;
+  padding-bottom: 120px; /* Make sure this is present and not overridden */
+}
 
         .nav-tabs .nav-link.active {
             background-image: linear-gradient(to bottom, #FF7E5F, #FD3A69);
@@ -111,11 +123,6 @@ body,
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
         }
 
-             .complaint-center {
-            margin-top: 80px;
-            margin-right: 0;
-            margin-left: 245px;
-        }
 .text-orange{
     color: #FD7E14;
 }
@@ -182,3 +189,4 @@ body,
     border: 1px solid #FD3A69;
     padding: 6px 10px;
 }
+

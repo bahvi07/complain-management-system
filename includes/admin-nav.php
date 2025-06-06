@@ -89,11 +89,11 @@ $pendingCount = ($result && $row = mysqli_fetch_assoc($result)) ? $row['total'] 
         <i class="fas fa-eye"></i> Show Department
       </a>
     </li>
-    <!-- <li class="nav-item">
-      <a class="nav-link <?= ($currentPage == 'reports.php') ? 'active' : '' ?>" href="./reports.php">
-        <i class="fas fa-chart-bar"></i> Reports
+    <li class="nav-item">
+      <a class="nav-link <?= ($currentPage == 'feed.php') ? 'active' : '' ?>" href="./feed.php">
+        <i class="fas fa-chart-bar"></i> Feedback
       </a>
-    </li> -->
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="../auth/admin-logout.php">
         <i class="fas fa-sign-out-alt"></i> Logout
