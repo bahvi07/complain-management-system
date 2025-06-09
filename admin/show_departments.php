@@ -38,6 +38,7 @@ include '../auth/admin-auth-check.php';
                 <option>Water</option>
                 <option>Road</option>
                 <option>Land</option>
+                  <option>Sanitation</option>
             </select>
         </div>
 

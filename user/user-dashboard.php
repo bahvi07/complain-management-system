@@ -139,6 +139,7 @@ Feedback</a></li>
                 <option value="Water">Water Related</option>
                 <option value="Electricity">Electricity Related</option>
                 <option value="Land">Land Related</option>
+                  <option value="Sanitation">Sanitation</option>
                 <option value="Other">Other</option>
               </select>
             </div>

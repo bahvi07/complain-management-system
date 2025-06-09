@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (otpBtn) {
     otpBtn.addEventListener("click", async () => {
-      const phoneInput = document.getElementById("phone")
+      const phoneInput = document.getElementById("phone");
       const phone = phoneInput.value.trim()
 
       const pattern = /^[6-9]\d{9}$/
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (data.otp) {
                 setTimeout(() => {
                   toastr.info(`Your OTP is: <b>${data.otp}</b>`, "Your OTP", { timeOut: 7000, escapeHtml: false })
-                }, 800) // 500ms delay after modal opens
+                }, 1800) 
               }
             }, 800)
           } else {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function showToastr(type) {
   const toastr = window.toastr // Declare toastr variable
   if (type === "success") {
-    toastr.success("Phone number is valid. Sending OTP...")
+    toastr.success("Phone number is valid. Sending OTP...", "", { timeOut: 1500 })
   } else {
     toastr.error("Invalid phone number! Enter 10 digits starting with 6-9.")
   }
@@ -162,7 +162,6 @@ console.log(result);
             window.location.href = "../user/user-dashboard.php"
           })
         } else {
-          // ✅ Fixed: Wait for user to click OK before reloading
           Swal.fire({
             icon: "error",
             title: "Invalid OTP",
@@ -224,4 +223,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   })
-})
+});

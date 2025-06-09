@@ -53,6 +53,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->setFrom('help40617@gmail.com', 'Complaint Management System');
         $mail->addAddress($email);
 
+        // FIXED: Correct path from mail_api folder to assets folder
+        if (!empty($image)) {
+            // Since script is in mail_api folder, we need to go up one level to reach cms root
+            $imagePath = dirname(__DIR__) . '/assets/images/complain_upload/' . $image;
+            
+            // Alternative absolute path method
+            $absolutePath = $_SERVER['DOCUMENT_ROOT'] . '/cms/assets/images/complain_upload/' . $image;
+            
+            // Debug logging
+            error_log("Script location: " . __FILE__);
+            error_log("Trying relative path: " . $imagePath);
+            error_log("Trying absolute path: " . $absolutePath);
+            
+            if (file_exists($imagePath)) {
+                $mail->addAttachment($imagePath, $image);
+                error_log("SUCCESS: File attached using relative path");
+            } elseif (file_exists($absolutePath)) {
+                $mail->addAttachment($absolutePath, $image);
+                error_log("SUCCESS: File attached using absolute path");
+            } else {
+                error_log("ERROR: File not found at either path");
+                error_log("Image filename: " . $image);
+                
+                // List files in the directory for debugging
+                $uploadDir = dirname(__DIR__) . '/assets/images/complain_upload/';
+                if (is_dir($uploadDir)) {
+                    $files = scandir($uploadDir);
+                    error_log("Files in upload directory: " . implode(', ', $files));
+                } else {
+                    error_log("Upload directory does not exist: " . $uploadDir);
+                }
+            }
+        }
+
         $mail->isHTML(true);
         $mail->Subject = "Complaint Forwarded (Ref ID: $refid)";
 
@@ -95,7 +129,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         error_log("Mailer Error: " . $mail->ErrorInfo);
         
-        // Error with SweetAlert
+        // Error with SweetAlert, show detailed error
+        $errorMsg = addslashes($mail->ErrorInfo ?: $e->getMessage());
         echo "<!DOCTYPE html>
         <html>
         <head>
@@ -106,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Swal.fire({
                 icon: 'error',
                 title: 'Email Failed!',
-                text: 'Failed to send email. Please try again.',
+                html: 'Failed to send email.<br><b>Reason:</b> " . $errorMsg . "',
                 confirmButtonText: 'OK'
             }).then(() => {
                 window.location.href = '../admin/complaints.php';
